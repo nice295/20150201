@@ -1,4 +1,4 @@
-package androidbasecamp.nice295.com.androidbasecamp.fragment;
+package androidbasecamp.nice295.com.androidbasecamp.Fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;

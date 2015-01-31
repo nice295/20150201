@@ -9,19 +9,13 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import androidbasecamp.nice295.com.androidbasecamp.Events.UpdateActionBar;
-import androidbasecamp.nice295.com.androidbasecamp.fragment.PlaceholderFragment;
 
 public class ScollAndHideActivity extends BaseActivity implements View.OnTouchListener, AbsListView.OnScrollListener {
 

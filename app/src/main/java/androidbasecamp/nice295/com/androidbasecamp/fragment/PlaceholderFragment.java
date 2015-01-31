@@ -1,8 +1,6 @@
-package androidbasecamp.nice295.com.androidbasecamp.fragment;
+package androidbasecamp.nice295.com.androidbasecamp.Fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.text.style.UpdateAppearance;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

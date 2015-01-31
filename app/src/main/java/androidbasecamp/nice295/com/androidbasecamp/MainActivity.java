@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidbasecamp.nice295.com.androidbasecamp.Events.UpdateActionBar;
-import androidbasecamp.nice295.com.androidbasecamp.fragment.PlaceholderFragment;
+import androidbasecamp.nice295.com.androidbasecamp.Fragment.PlaceholderFragment;
 
 public class MainActivity extends BaseActivity {
 
