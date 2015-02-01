@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="androidbasecamp.nice295.com.androidbasecamp">
+    package="androidbasecamp.nice295.com.androidbasecamp"
+    android:versionCode="1"
+    android:versionName="0.1">
 
     <application
         android:allowBackup="true"
@@ -18,8 +20,7 @@
         </activity>
         <activity
             android:name=".ScollAndHideActivity"
-            android:label="Scroll and hide">
-        </activity>
+            android:label="Scroll and hide"></activity>
     </application>
 
 </manifest>
