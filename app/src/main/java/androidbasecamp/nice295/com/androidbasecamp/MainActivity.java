@@ -2,11 +2,14 @@ package androidbasecamp.nice295.com.androidbasecamp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidbasecamp.nice295.com.androidbasecamp.Events.UpdateActionBar;
 import androidbasecamp.nice295.com.androidbasecamp.Fragment.PlaceholderFragment;
+import androidbasecamp.nice295.com.androidbasecamp.Utils.AppConfig;
+import androidbasecamp.nice295.com.androidbasecamp.Utils.AppManager;
 
 public class MainActivity extends BaseActivity {
 
@@ -38,10 +41,14 @@ public class MainActivity extends BaseActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            AppManager.getAppManager().showAllActivity();
+            Log.d(getClass().getSimpleName(), "User name: "+ AppConfig.getAppConfig(this).get(AppConfig.CONF_USER_NAME));
+            AppConfig.getAppConfig(this).set(AppConfig.CONF_USER_NAME, "Horace");
             return true;
         }
         else if (id == R.id.action_scroll_and_hide) {
             startActivity(new Intent(this, ScollAndHideActivity.class));
+            overridePendingTransition(R.anim.close_parent, R.anim.open_child);
             return true;
         }
         return super.onOptionsItemSelected(item);

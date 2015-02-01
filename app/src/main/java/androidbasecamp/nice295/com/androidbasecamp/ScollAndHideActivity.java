@@ -1,6 +1,7 @@
 package androidbasecamp.nice295.com.androidbasecamp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,10 +18,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import androidbasecamp.nice295.com.androidbasecamp.Utils.AnimManager;
+import androidbasecamp.nice295.com.androidbasecamp.Utils.AppManager;
+
 public class ScollAndHideActivity extends BaseActivity implements View.OnTouchListener, AbsListView.OnScrollListener {
 
     private int mLastFirstVisibleItem;
     private boolean mIsScrollingUp;
+
+    private TextView mTvFooter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,8 @@ public class ScollAndHideActivity extends BaseActivity implements View.OnTouchLi
         setContentView(R.layout.activity_scroll_and_hide);
 
         // bind views
+        mTvFooter = (TextView) findViewById(R.id.tv_footer);
+
         ListView listView = (ListView) findViewById(R.id.listView);
         ArrayList<String> mSampleData = new ArrayList<String>();
         for (int idx = 0; idx < 100; idx++) {
@@ -62,6 +70,14 @@ public class ScollAndHideActivity extends BaseActivity implements View.OnTouchLi
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            AppManager.getAppManager().showAllActivity();
+            return true;
+        } else if (id == R.id.action_main) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            overridePendingTransition(R.anim.close_child, R.anim.open_parent);
+
             return true;
         }
 
@@ -88,30 +104,16 @@ public class ScollAndHideActivity extends BaseActivity implements View.OnTouchLi
                 mIsScrollingUp = false;
                 Log.i(getClass().getSimpleName(), "scrolling down...");
                 if (findViewById(R.id.tv_footer).getVisibility() == View.VISIBLE) {
-                    TranslateAnimation translateAnimation = new TranslateAnimation(
-                            TranslateAnimation.RELATIVE_TO_PARENT, 0.0f,
-                            TranslateAnimation.RELATIVE_TO_PARENT, 0.0f,
-                            TranslateAnimation.RELATIVE_TO_PARENT, 0.0f,
-                            TranslateAnimation.RELATIVE_TO_PARENT, 1.0f);
-                    translateAnimation.setDuration(500);
-                    translateAnimation.setFillAfter(true);
-                    findViewById(R.id.tv_footer).startAnimation(translateAnimation);
-                    findViewById(R.id.tv_footer).setVisibility(View.INVISIBLE);
+                    AnimManager.getAnimManager().slideDown(mTvFooter, 500, 0);
+                    mTvFooter.setVisibility(View.INVISIBLE);
                 }
 
             } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
                 mIsScrollingUp = true;
                 Log.i(getClass().getSimpleName(), "scrolling up...");
-                if (findViewById(R.id.tv_footer).getVisibility() == View.INVISIBLE) {
-                    TranslateAnimation translateAnimation = new TranslateAnimation(
-                            TranslateAnimation.RELATIVE_TO_PARENT, 0.0f,
-                            TranslateAnimation.RELATIVE_TO_PARENT, 0.0f,
-                            TranslateAnimation.RELATIVE_TO_PARENT, 1.0f,
-                            TranslateAnimation.RELATIVE_TO_PARENT, 0.0f);
-                    translateAnimation.setDuration(500);
-                    translateAnimation.setFillAfter(true);
-                    findViewById(R.id.tv_footer).setVisibility(View.VISIBLE);
-                    findViewById(R.id.tv_footer).startAnimation(translateAnimation);
+                if (mTvFooter.getVisibility() == View.INVISIBLE) {
+                    mTvFooter.setVisibility(View.VISIBLE);
+                    AnimManager.getAnimManager().slideUp(mTvFooter, 500, 0);
                 }
             }
 
