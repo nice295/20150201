@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,30 +20,49 @@ import java.util.ArrayList;
 
 import androidbasecamp.nice295.com.androidbasecamp.Utils.AnimManager;
 
-public class StickyActivity extends BaseActivity implements View.OnTouchListener, AbsListView.OnScrollListener {
+public class StickyActivity extends BaseActivity implements AbsListView.OnScrollListener {
 
-    private int mLastFirstVisibleItem;
-    private boolean mIsScrollingUp;
+    private ImageView mHeader;
+    private ListView mListView;
+    private View mPlaceHolderView;
 
-    private TextView mTvFooter;
+    private int mHeaderHeight;
+    private int mMinHeaderTranslation;
+    private int mActionBarHeight;
+
+    private TypedValue mTypedValue = new TypedValue();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scroll_and_hide);
+        setContentView(R.layout.activity_stickyheader);
+
+        mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
+        mMinHeaderTranslation = -mHeaderHeight + getActionBarHeight();
 
         // bind views
-        mTvFooter = (TextView) findViewById(R.id.tv_footer);
+        mHeader = (ImageView) findViewById(R.id.iv_header);
 
-        ListView listView = (ListView) findViewById(R.id.listView);
+        mListView = (ListView) findViewById(R.id.lv_sticky);
         ArrayList<String> mSampleData = new ArrayList<String>();
         for (int idx = 0; idx < 100; idx++) {
             String string = "Data " + idx;
             mSampleData.add(string);
         }
         SampleAdapter mAdapter = new SampleAdapter(this, R.layout.list_item, mSampleData);
-        listView.setAdapter(mAdapter);
-        listView.setOnScrollListener(this);
+        mPlaceHolderView = getLayoutInflater().inflate(R.layout.view_header_placeholder, mListView, false);
+        mListView.addHeaderView(mPlaceHolderView);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnScrollListener(this);
+    }
+
+    public int getActionBarHeight() {
+        if (mActionBarHeight != 0) {
+            return mActionBarHeight;
+        }
+        getTheme().resolveAttribute(android.R.attr.actionBarSize, mTypedValue, true);
+        mActionBarHeight = TypedValue.complexToDimensionPixelSize(mTypedValue.data, getResources().getDisplayMetrics());
+        return mActionBarHeight;
     }
 
     @Override
@@ -51,12 +72,14 @@ public class StickyActivity extends BaseActivity implements View.OnTouchListener
         // Populate views
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+    */
 
     /*
     @Override
@@ -90,45 +113,32 @@ public class StickyActivity extends BaseActivity implements View.OnTouchListener
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return false;
-    }
-
-    @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        // TODO Auto-generated method stub
-        final ListView lw = (ListView) findViewById(R.id.listView);
-
-        if (scrollState == 0)
-            Log.i(getClass().getSimpleName(), "scrolling stopped...");
-
-        if (view.getId() == lw.getId()) {
-            final int currentFirstVisibleItem = lw.getFirstVisiblePosition();
-
-            if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-                mIsScrollingUp = false;
-                Log.i(getClass().getSimpleName(), "scrolling down...");
-                if (findViewById(R.id.tv_footer).getVisibility() == View.VISIBLE) {
-                    AnimManager.getAnimManager().slideDown(mTvFooter, 500, 0);
-                    mTvFooter.setVisibility(View.INVISIBLE);
-                }
-
-            } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-                mIsScrollingUp = true;
-                Log.i(getClass().getSimpleName(), "scrolling up...");
-                if (mTvFooter.getVisibility() == View.INVISIBLE) {
-                    mTvFooter.setVisibility(View.VISIBLE);
-                    AnimManager.getAnimManager().slideUp(mTvFooter, 500, 0);
-                }
-            }
-
-            mLastFirstVisibleItem = currentFirstVisibleItem;
-        }
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int scrollY = getScrollY();
+        //sticky actionbar
+        mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
+    }
 
+    public int getScrollY() {
+        View c = mListView.getChildAt(0);
+        if (c == null) {
+            return 0;
+        }
+
+        int firstVisiblePosition = mListView.getFirstVisiblePosition();
+        int top = c.getTop();
+
+        int headerHeight = 0;
+        if (firstVisiblePosition >= 1) {
+            //headerHeight = mPlaceHolderView.getHeight();
+            headerHeight = mPlaceHolderView.getHeight();
+        }
+
+        return -top + firstVisiblePosition * c.getHeight() + headerHeight;
     }
 
     private class SampleAdapter extends ArrayAdapter<String> {

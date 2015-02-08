@@ -6,11 +6,40 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world"
-        android:textSize="24dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/tv_to_scroll_and_hide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Scroll and hide"
+                android:textSize="24dp"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tv_to_config"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Config"
+                android:textSize="24dp"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/tv_to_sticky"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Stick header"
+                android:textSize="24dp"
+                android:gravity="center" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -48,11 +49,12 @@ public class MainActivity extends BaseActivity {
         }
         else if (id == R.id.action_scroll_and_hide) {
             startActivity(new Intent(this, ScollAndHideActivity.class));
-            overridePendingTransition(R.anim.close_parent, R.anim.open_child);
+            //overridePendingTransition(R.anim.close_parent, R.anim.open_child);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+    */
 
     public void onEvent(UpdateActionBar event) {
         getActionBar().setTitle(event.getActionBarTitle());

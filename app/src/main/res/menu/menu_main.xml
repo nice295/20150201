@@ -7,14 +7,4 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_main"
-        android:orderInCategory="200"
-        android:title="Main"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_scroll_and_hide"
-        android:orderInCategory="300"
-        android:title="Scroll and hide"
-        app:showAsAction="never" />
 </menu>

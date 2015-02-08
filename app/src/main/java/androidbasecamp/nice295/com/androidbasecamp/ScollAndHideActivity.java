@@ -3,6 +3,7 @@ package androidbasecamp.nice295.com.androidbasecamp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,6 +62,7 @@ public class ScollAndHideActivity extends BaseActivity implements View.OnTouchLi
         return true;
     }
 
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -82,6 +84,13 @@ public class ScollAndHideActivity extends BaseActivity implements View.OnTouchLi
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    */
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        NavUtils.navigateUpFromSameTask(this);
     }
 
     @Override

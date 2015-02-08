@@ -20,7 +20,12 @@
         </activity>
         <activity
             android:name=".ScollAndHideActivity"
-            android:label="Scroll and hide"></activity>
+            android:label="Scroll and hide"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".StickyActivity"
+            android:label="Scroll and hide"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
